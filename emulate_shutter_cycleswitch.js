@@ -5,10 +5,10 @@
  *
  * This script can emulate a cycle switch for a remote Shelly 2.5 in roller shutter mode
  * with a Shelly Plus device.
- * Once the button is pushed it checks the former direction and sends a open, stop or close 
+ * Once the button is pushed it checks the former direction and sends a open, stop or close
  * command to the remote Shelly 2.5.
  */
- 
+
 // CONFIG START
 // this is the remote shelly which we want to control.
 // Input is the number of the switch
@@ -18,11 +18,11 @@
 // Shelly der gesteuert werden soll (ip). Eine CONFIG bezieht sich, wenn ich es
 // richtig verstanden habe, auf einen Taster. Also mit Taster 1 steuert man Shelly X
 // und mit Taster 2 steuert man Shelly Y.
-const CONFIG = [];
+let CONFIG = [];
 CONFIG[0] = {
     ip: '192.168.0.2xx',    // IP-Adresse des 1. Shellys angeben
     input: 0,               // Taster Nummer 1?
-    btnevent: 'single_push' 
+    btnevent: 'single_push'
 };
 CONFIG[1] = {
     ip: '192.168.0.2xx',    // IP-Adresse des 2. Shellys angeben
@@ -40,7 +40,7 @@ Shelly.addEventHandler(
         if (typeof event.info.event !== 'undefined') {
             for (let i = 0; i < CONFIG.length; i++){    // Gehe durch jedes Element des CONFIG Arrays
                 if (event.info.id === CONFIG[i].input && event.info.event === CONFIG[i].btnevent) {
-                    getCurrentState(CONFIG[i].ip, i);   // IP-Adresse und Index des CONFIG-Elements an 'getCurrentState'-Funktion übergeben 
+                    getCurrentState(CONFIG[i].ip, i);   // IP-Adresse und Index des CONFIG-Elements an 'getCurrentState'-Funktion übergeben
                 } else {
                     return true;
                 }
@@ -76,7 +76,7 @@ function getCurrentState(ip, config_no) {   // Die übergebene IP-Addresse und I
     );
 };
 
-// send shutter command 
+// send shutter command
 function controlShutter(ip, command) {
     Shelly.call(
         "http.get", {
